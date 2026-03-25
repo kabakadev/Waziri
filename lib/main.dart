@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'features/dashboard/presentation/dashboard_screen.dart';
 import 'core/database/database_helper.dart';
 import 'core/theme/app_theme.dart';
+import 'core/presentation/man_navigation.dart'; // Add this import
 
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
   throw UnimplementedError('sharedPreferencesProvider must be overridden');
@@ -35,7 +36,7 @@ class WaziriApp extends StatelessWidget {
       title: 'Waziri',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: const DashboardScreen(),
+      home: const MainNavigation(),
     );
   }
 }
