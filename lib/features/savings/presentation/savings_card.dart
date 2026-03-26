@@ -67,7 +67,10 @@ class SavingsCard extends ConsumerWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.planned.withOpacity(0.3), width: 2),
+        border: Border.all(
+          color: AppColors.planned.withValues(alpha: 0.3),
+          width: 2,
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -19,8 +19,8 @@ class DebtCard extends ConsumerWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: debtAmount > 0
-              ? AppColors.impulse.withOpacity(0.5)
-              : AppColors.textSecondary.withOpacity(0.2),
+              ? AppColors.impulse.withValues(alpha: 0.5)
+              : AppColors.textSecondary.withValues(alpha: 0.2),
           width: 2,
         ),
       ),

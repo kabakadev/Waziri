@@ -16,7 +16,7 @@ class TransactionHistoryList extends ConsumerWidget {
       loading: () => const Center(
         child: CircularProgressIndicator(color: AppColors.primary),
       ),
-      error: (error, stack) => Center(
+      error: (error, stack) => const Center(
         child: Text(
           'Error loading data.',
           style: TextStyle(color: AppColors.impulse),
@@ -54,7 +54,7 @@ class TransactionHistoryList extends ConsumerWidget {
           Icon(
             Icons.receipt_long,
             size: 64,
-            color: AppColors.textSecondary.withOpacity(0.5),
+            color: AppColors.textSecondary.withValues(alpha: .5),
           ),
           const SizedBox(height: 16),
           Text(
@@ -129,7 +129,7 @@ class TransactionHistoryList extends ConsumerWidget {
               Container(
                 decoration: BoxDecoration(
                   color: tx.isRegretted
-                      ? AppColors.impulse.withOpacity(0.1)
+                      ? AppColors.impulse.withValues(alpha: .1)
                       : Colors.transparent,
                   shape: BoxShape.circle,
                 ),

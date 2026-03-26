@@ -110,7 +110,7 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
 
             // Category Dropdown
             DropdownButtonFormField<String>(
-              value: _selectedCategory,
+              initialValue: _selectedCategory,
               hint: const Text('Select Category'),
               dropdownColor: AppColors.surface,
               items: _categories.map((cat) {
@@ -138,7 +138,7 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 decoration: BoxDecoration(
                   color: _isImpulse
-                      ? AppColors.impulse.withOpacity(0.2)
+                      ? AppColors.impulse.withValues(alpha: 0.2)
                       : AppColors.surface,
                   border: Border.all(
                     color: _isImpulse ? AppColors.impulse : Colors.transparent,
