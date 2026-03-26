@@ -6,6 +6,56 @@ import 'savings_shield_dialog.dart';
 
 class SavingsCard extends ConsumerWidget {
   const SavingsCard({super.key});
+  void _showAddFundsDialog(BuildContext context, WidgetRef ref) {
+    final controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppColors.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text(
+          'Add to Savings',
+          style: TextStyle(color: AppColors.planned),
+        ),
+        content: TextField(
+          controller: controller,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          style: const TextStyle(color: AppColors.textPrimary),
+          decoration: const InputDecoration(
+            hintText: 'Amount',
+            prefixText: 'KES ',
+            prefixStyle: TextStyle(
+              color: AppColors.planned,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: AppColors.textSecondary),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final amount = double.tryParse(controller.text);
+              if (amount != null && amount > 0) {
+                ref.read(savingsBalanceProvider.notifier).addFunds(amount);
+              }
+              Navigator.of(context).pop();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.planned,
+              foregroundColor: AppColors.background,
+            ),
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -55,11 +105,10 @@ class SavingsCard extends ConsumerWidget {
               // Add Funds Button (Positive, Low Friction)
               IconButton(
                 icon: const Icon(Icons.add_circle, color: AppColors.planned),
-                onPressed: () {
-                  // In a real app, you might want a small dialog to type the amount,
-                  // but for testing, let's just add 1000 KES directly.
-                  ref.read(savingsBalanceProvider.notifier).addFunds(1000);
-                },
+                onPressed: () => _showAddFundsDialog(
+                  context,
+                  ref,
+                ), // <--- Use the new dialog!
               ),
               // Drawdown Button (Negative, High Friction)
               IconButton(
