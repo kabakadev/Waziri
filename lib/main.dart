@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'features/dashboard/presentation/dashboard_screen.dart';
+
 import 'core/database/database_helper.dart';
 import 'core/theme/app_theme.dart';
-import 'core/presentation/man_navigation.dart'; // Add this import
+import 'core/presentation/main_navigation.dart'; // Add this import
 
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
   throw UnimplementedError('sharedPreferencesProvider must be overridden');
