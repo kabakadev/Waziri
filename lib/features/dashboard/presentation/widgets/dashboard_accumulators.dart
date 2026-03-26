@@ -13,15 +13,11 @@ class DashboardAccumulators extends ConsumerWidget {
 
     return transactionsAsync.when(
       loading: () => const SizedBox(
-        height: 120,
-        child: Center(
-          child: CircularProgressIndicator(color: AppColors.primary),
-        ),
+        height: 100,
+        child: Center(child: CircularProgressIndicator()),
       ),
-      error: (_, __) => const SizedBox(
-        height: 120,
-        child: Center(child: Text('Failed to load stats')),
-      ),
+      error: (_, __) =>
+          const SizedBox(height: 100, child: Center(child: Text('Error'))),
       data: (transactions) {
         final now = DateTime.now();
 
@@ -46,87 +42,25 @@ class DashboardAccumulators extends ConsumerWidget {
           (sum, tx) => sum + tx.amount,
         );
 
-        // 3. Small Amount Radar (Last 7 days, under 100 KES)
-        final weekAgo = now.subtract(const Duration(days: 7));
-        final smallTx = transactions.where(
-          (tx) => tx.amount < 100 && tx.date.isAfter(weekAgo),
-        );
-        final smallTotal = smallTx.fold(0.0, (sum, tx) => sum + tx.amount);
-        final smallCount = smallTx.length;
-
         return Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
+          child: Row(
             children: [
-              // Top Row: Today & Impulse
-              Row(
-                children: [
-                  Expanded(
-                    child: _StatCard(
-                      title: "Today's Spend",
-                      amount: todayTotal,
-                      color: AppColors.primary,
-                      icon: Icons.today,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _StatCard(
-                      title: 'Impulse (Month)',
-                      amount: impulseTotal,
-                      color: AppColors.impulse,
-                      icon: Icons.local_fire_department,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              // Bottom Row: Small Amount Radar
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: AppColors.textSecondary.withOpacity(0.2),
-                  ),
+              Expanded(
+                child: _StatCard(
+                  title: "Today's Spend",
+                  amount: todayTotal,
+                  color: AppColors.primary,
+                  icon: Icons.today,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.radar,
-                              color: AppColors.textSecondary,
-                              size: 18,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              'Small Amount Radar',
-                              style: Theme.of(context).textTheme.titleSmall
-                                  ?.copyWith(color: AppColors.textSecondary),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          '$smallCount leaks this week (<100 KES)',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ],
-                    ),
-                    Text(
-                      '${smallTotal.toStringAsFixed(0)} KES',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: AppColors.textPrimary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _StatCard(
+                  title: 'Impulse (Mo)',
+                  amount: impulseTotal,
+                  color: AppColors.impulse,
+                  icon: Icons.local_fire_department,
                 ),
               ),
             ],
@@ -157,9 +91,7 @@ class _StatCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border(
-          top: BorderSide(color: color, width: 3),
-        ), // Distinct top accent
+        border: Border(top: BorderSide(color: color, width: 3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,7 +105,6 @@ class _StatCard extends StatelessWidget {
                   title,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: AppColors.textSecondary,
-                    fontWeight: FontWeight.w600,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
