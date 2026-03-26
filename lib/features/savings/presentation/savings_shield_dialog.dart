@@ -81,99 +81,109 @@ class _SavingsShieldDialogState extends ConsumerState<SavingsShieldDialog> {
     return Dialog(
       backgroundColor: AppColors.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(
-              Icons.shield_rounded,
-              color: AppColors.impulse,
-              size: 48,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Break the Shield?',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineMedium?.copyWith(color: AppColors.impulse),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Withdrawing from savings should hurt. Justify it below.',
-              textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: 24),
-
-            TextField(
-              controller: _amountController,
-              keyboardType: const TextInputType.numberWithOptions(
-                decimal: true,
-              ),
-              style: const TextStyle(
+      // 1. ADD THE SCROLL VIEW HERE to prevent keyboard overflow
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.shield_rounded,
                 color: AppColors.impulse,
-                fontWeight: FontWeight.bold,
+                size: 48,
               ),
-              decoration: const InputDecoration(
-                hintText: 'Amount (KES)',
-                prefixIcon: Icon(Icons.money_off, color: AppColors.impulse),
+              const SizedBox(height: 16),
+              Text(
+                'Break the Shield?',
+                style: Theme.of(
+                  context,
+                ).textTheme.headlineMedium?.copyWith(color: AppColors.impulse),
               ),
-            ),
-            const SizedBox(height: 16),
-
-            // The mandatory reason text field
-            TextField(
-              controller: _reasonController,
-              decoration: const InputDecoration(
-                hintText: 'Why are you doing this?',
-                prefixIcon: Icon(
-                  Icons.edit_note,
+              const SizedBox(height: 8),
+              Text(
+                'Withdrawing from savings should hurt. Justify it below.',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: AppColors.textSecondary,
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: 24),
 
-            CheckboxListTile(
-              title: const Text(
-                'This is a genuine emergency',
-                style: TextStyle(fontSize: 14),
+              TextField(
+                controller: _amountController,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                style: const TextStyle(
+                  color: AppColors.impulse,
+                  fontWeight: FontWeight.bold,
+                ),
+                decoration: const InputDecoration(
+                  hintText: '0.00',
+                  // 2. SWAP THE ICON FOR 'KES ' TEXT
+                  prefixText: 'KES ',
+                  prefixStyle: TextStyle(
+                    color: AppColors.impulse,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                  filled: true,
+                  fillColor: AppColors.background,
+                ),
               ),
-              value: _isEmergency,
-              activeColor: AppColors.impulse,
-              checkColor: AppColors.background,
-              side: const BorderSide(color: AppColors.textSecondary),
-              onChanged: (val) => setState(() => _isEmergency = val ?? false),
-            ),
-            const SizedBox(height: 24),
+              const SizedBox(height: 16),
 
-            Row(
-              children: [
-                Expanded(
-                  child: TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(color: AppColors.textSecondary),
-                    ),
+              TextField(
+                controller: _reasonController,
+                decoration: const InputDecoration(
+                  hintText: 'Why are you doing this?',
+                  prefixIcon: Icon(
+                    Icons.edit_note,
+                    color: AppColors.textSecondary,
                   ),
                 ),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: _breakShield,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.impulse,
-                      foregroundColor: AppColors.background,
-                    ),
-                    child: const Text('Confirm'),
-                  ),
+              ),
+              const SizedBox(height: 16),
+
+              CheckboxListTile(
+                title: const Text(
+                  'This is a genuine emergency',
+                  style: TextStyle(fontSize: 14),
                 ),
-              ],
-            ),
-          ],
+                value: _isEmergency,
+                activeColor: AppColors.impulse,
+                checkColor: AppColors.background,
+                side: const BorderSide(color: AppColors.textSecondary),
+                onChanged: (val) => setState(() => _isEmergency = val ?? false),
+              ),
+              const SizedBox(height: 24),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(color: AppColors.textSecondary),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _breakShield,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.impulse,
+                        foregroundColor: AppColors.background,
+                      ),
+                      child: const Text('Confirm'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
