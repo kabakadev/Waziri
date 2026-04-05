@@ -70,3 +70,8 @@ pubspec.override.yaml
 
 # Local overrides - tasha branch only
 *.override.yaml
+
+# Flutter specific
+flutter_*.png
+flutter_*.ics
+flutter_*.json
