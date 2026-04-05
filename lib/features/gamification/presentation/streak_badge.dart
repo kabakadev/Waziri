@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_theme.dart';
-import 'streak_provider.dart';
+import '../providers/streak_provider.dart';
 
 /// A premium-looking badge that displays the user's current impulse-free streak
 /// 
