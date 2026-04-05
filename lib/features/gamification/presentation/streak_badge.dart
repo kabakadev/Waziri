@@ -6,7 +6,7 @@ import '../../../core/theme/app_theme.dart';
 import '../providers/streak_provider.dart';
 
 /// A premium-looking badge that displays the user's current impulse-free streak
-/// 
+///
 /// Features:
 /// - 🔥 Flame icon that changes color based on streak length
 /// - Displays streak count with "day" / "days" formatting
@@ -18,7 +18,7 @@ class StreakBadge extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final streakAsync = ref.watch(impulseFreeStreakProvider);
-    
+
     return streakAsync.when(
       loading: () => _buildLoadingState(),
       error: (_, __) => _buildErrorState(),
@@ -29,14 +29,17 @@ class StreakBadge extends ConsumerWidget {
   /// Builds the main badge content once streak data is loaded
   Widget _buildBadgeContent(int streak) {
     final isActive = streak > 0;
-    
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: isActive ? AppColors.surface : Colors.transparent,
         borderRadius: BorderRadius.circular(20),
-        border: isActive 
-            ? Border.all(color: AppColors.primary.withOpacity(0.3), width: 1)
+        border: isActive
+            ? Border.all(
+                color: AppColors.primary.withValues(alpha: 0.3),
+                width: 1,
+              )
             : null,
       ),
       child: Row(
@@ -53,7 +56,7 @@ class StreakBadge extends ConsumerWidget {
   /// Builds the flame icon with color based on streak length
   Widget _buildFlameIcon(int streak) {
     Color flameColor;
-    
+
     if (streak == 0) {
       flameColor = AppColors.textSecondary; // Greyed out
     } else if (streak <= 2) {
@@ -61,18 +64,14 @@ class StreakBadge extends ConsumerWidget {
     } else {
       flameColor = AppColors.primary; // Gold for established streaks
     }
-    
-    return Icon(
-      Icons.local_fire_department,
-      color: flameColor,
-      size: 18,
-    );
+
+    return Icon(Icons.local_fire_department, color: flameColor, size: 18);
   }
 
   /// Builds the streak text with proper pluralization
   Widget _buildStreakText(int streak) {
     Color textColor;
-    
+
     if (streak == 0) {
       textColor = AppColors.textSecondary;
     } else if (streak <= 2) {
@@ -80,7 +79,7 @@ class StreakBadge extends ConsumerWidget {
     } else {
       textColor = AppColors.primary;
     }
-    
+
     String text;
     if (streak == 0) {
       text = 'Start streak';
@@ -89,7 +88,7 @@ class StreakBadge extends ConsumerWidget {
     } else {
       text = '$streak days clean';
     }
-    
+
     return Text(
       text,
       style: TextStyle(
