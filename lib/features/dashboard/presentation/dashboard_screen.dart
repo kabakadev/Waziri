@@ -1,3 +1,4 @@
+// lib/features/dashboard/presentation/dashboard_screen.dart
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../transactions/presentation/add_transaction_sheet.dart';
@@ -5,6 +6,7 @@ import '../../transactions/presentation/transaction_history_list.dart';
 import 'widgets/dashboard_accumulators.dart';
 import '../../savings/presentation/savings_card.dart';
 import '../../debt/presentation/debt_card.dart';
+import '../../gamification/presentation/streak_badge.dart';  // NEW LINE
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -27,6 +29,16 @@ class DashboardScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Waziri'),
           elevation: 0,
+          // NEW LINES - ADD THIS ACTIONS SECTION
+          actions: const [
+            Padding(
+              padding: EdgeInsets.only(right: 16),
+              child: Center(
+                child: StreakBadge(),
+              ),
+            ),
+          ],
+          // END OF NEW LINES
           bottom: const TabBar(
             indicatorColor: AppColors.primary,
             labelColor: AppColors.primary,
