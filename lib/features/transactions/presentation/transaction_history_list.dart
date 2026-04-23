@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_theme.dart';
 import '../models/transaction.dart';
 import '../providers/transaction_provider.dart';
+import 'transaction_detail_sheet.dart';
 
 class TransactionHistoryList extends ConsumerWidget {
   const TransactionHistoryList({super.key});
@@ -97,6 +98,16 @@ class TransactionHistoryList extends ConsumerWidget {
         ),
       ),
       child: ListTile(
+        onTap: () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled:
+                true, // Allows the sheet to handle large text/notes
+            backgroundColor:
+                Colors.transparent, // Keeps the rounded corners looking clean
+            builder: (context) => TransactionDetailSheet(transaction: tx),
+          );
+        },
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         title: Text(
           tx.category,
