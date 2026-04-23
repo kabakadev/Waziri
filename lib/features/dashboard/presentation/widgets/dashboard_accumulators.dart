@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../transactions/models/transaction.dart';
 import '../../../transactions/providers/transaction_provider.dart';
+import '../../../../core/utils/mpesa_parser.dart';
 
 class DashboardAccumulators extends ConsumerWidget {
   const DashboardAccumulators({super.key});
@@ -42,28 +43,42 @@ class DashboardAccumulators extends ConsumerWidget {
           (sum, tx) => sum + tx.amount,
         );
 
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: _StatCard(
-                  title: "Today's Spend",
-                  amount: todayTotal,
-                  color: AppColors.primary,
-                  icon: Icons.today,
+        return GestureDetector(
+          onDoubleTap: () {
+            final test1 =
+                "UDARN0L7MX confirmed. You have received Ksh1,558.00 from Nicholas Masi Kiage in US via Wapi Pay on 10/4/26 at 5:38 PM. New M-PESA balance is Ksh1,558.00.";
+            final test2 =
+                "UD6GYBQBCP Confirmed.You have received Ksh2,000.00 from KCB 1 501901 on 6/4/26 at 6:16 PM New M-PESA balance is Ksh2,080.08.  Separate personal and business funds through Pochi la Biashara on *334#.";
+            final test3 =
+                "UDJGY1AJGK Confirmed.You have received Ksh251.04 from PAYPAL WITHDRAW 841272 on 19/4/26 at 6:56 PM New M-PESA balance is Ksh251.04.  Separate personal and business funds through Pochi la Biashara on *334#.";
+
+            print('🎯 EXTRACTED 1: ${MpesaParser.parse(test1)?.toString()}');
+            print('🎯 EXTRACTED 2: ${MpesaParser.parse(test2)?.toString()}');
+            print('🎯 EXTRACTED 3: ${MpesaParser.parse(test3)?.toString()}');
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _StatCard(
+                    title: "Today's Spend",
+                    amount: todayTotal,
+                    color: AppColors.primary,
+                    icon: Icons.today,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _StatCard(
-                  title: 'Impulse (Mo)',
-                  amount: impulseTotal,
-                  color: AppColors.impulse,
-                  icon: Icons.local_fire_department,
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _StatCard(
+                    title: 'Impulse (Mo)',
+                    amount: impulseTotal,
+                    color: AppColors.impulse,
+                    icon: Icons.local_fire_department,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
